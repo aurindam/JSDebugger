@@ -28,6 +28,12 @@ Rectangle {
         width: mainWindow.width - breakpointLineWindow.width; height: mainWindow.height/4
         anchors.bottom: mainWindow.bottom; anchors.right: mainWindow.right
         color: "black"
+        Rectangle {
+            id: controlWindow
+            width: mainWindow.width - breakpointLineWindow.width; height: 20
+            anchors.bottom: infoWindow.top; anchors.right: infoWindow.right
+            color: "grey"
+        }
     }
 
     Rectangle {

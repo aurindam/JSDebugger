@@ -27,7 +27,7 @@ symbian:TARGET.CAPABILITY += NetworkServices
 SOURCES += main.cpp \
     filebrowser.cpp \
     debugservice.cpp \
-    debugagent.cpp
+    debuggeragent.cpp
 
 # Please do not modify the following two lines. Required for deployment.
 include(qmlapplicationviewer/qmlapplicationviewer.pri)
@@ -36,10 +36,13 @@ qtcAddDeployment()
 HEADERS += \
     filebrowser.h \
     debugservice.h \
-    debugagent.h
+    debuggeragent.h
 
 INCLUDEPATH += ../v8/include \
                ../v8/src
 
-LIBS += -L"C:\Users\auri\labs\v8\v8_g.lib" \
-        -L"C:\Users\auri\labs\v8\v8preparser_g.lib"
+#CONFIG += link_prl
+LIBS += /home/auri/Dev/labs/v8/libv8.a
+
+OTHER_FILES += \
+    test/script.js

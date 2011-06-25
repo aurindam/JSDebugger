@@ -1,15 +1,15 @@
-#ifndef DEBUGAGENT_H
-#define DEBUGAGENT_H
+#ifndef DebuggerAgent_H
+#define DebuggerAgent_H
 
 #include <QThread>
 #include "v8-debug.h"
 
-class DebugAgent : public QThread
+class DebuggerAgent : public QThread
 {
     Q_OBJECT
 public:
-    explicit DebugAgent(QObject *parent = 0);
-    ~DebugAgent();
+    explicit DebuggerAgent(QObject *parent = 0);
+    ~DebuggerAgent();
 
 signals:
     void response(QString);
@@ -24,7 +24,7 @@ private:
 private:
     v8::internal::Isolate *m_isolate;
 
-    friend void DebugAgentMessageHandler(const v8::Debug::Message& message);
+    friend void DebuggerAgentMessageHandler(const v8::Debug::Message& message);
 };
 
-#endif // DEBUGAGENT_H
+#endif // DebuggerAgent_H

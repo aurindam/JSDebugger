@@ -2,7 +2,7 @@
 #include <QFileInfo>
 
 #include "debugservice.h"
-#include "debugagent.h"
+#include "debuggeragent.h"
 #include "v8.h"
 
 v8::Handle<v8::Value> print(const v8::Arguments& args) {
@@ -26,8 +26,8 @@ v8::Handle<v8::Value> print(const v8::Arguments& args) {
 DebugService::DebugService(QObject *parent):
     QThread(parent), m_scriptSource(0), m_scriptName(0)
 {
-//    m_agent = new DebugAgent(this);
-//    connect(m_agent, SIGNAL(response(QString)), this, SLOT(response(QString)));
+    m_agent = new DebuggerAgent(this);
+    connect(m_agent, SIGNAL(response(QString)), this, SLOT(response(QString)));
 }
 
 DebugService::~DebugService()
@@ -132,4 +132,9 @@ void DebugService::reportException(v8::TryCatch* try_catch) {
 //        }
 //        printf("\n");
 //    }
+}
+
+void DebugService::response(QString result)
+{
+
 }

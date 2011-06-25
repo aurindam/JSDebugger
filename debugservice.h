@@ -4,7 +4,7 @@
 #include <QThread>
 #include "v8.h"
 
-class DebugAgent;
+class DebuggerAgent;
 class DebugService : public QThread
 {
     Q_OBJECT
@@ -28,7 +28,7 @@ private:
     v8::Handle<v8::String> m_scriptSource;
     v8::Handle<v8::Value> m_scriptName;
     v8::Persistent<v8::Context> m_debugContext;
-    DebugAgent *m_agent;
+    DebuggerAgent *m_agent;
 };
 
 #endif // DEBUGAGENT_H
