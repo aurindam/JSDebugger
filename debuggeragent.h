@@ -1,15 +1,16 @@
 #ifndef DebuggerAgent_H
 #define DebuggerAgent_H
 
-#include <QThread>
+#include <QObject>
 #include "v8-debug.h"
 
-class DebuggerAgent : public QThread
+class DebuggerAgent : public QObject
 {
     Q_OBJECT
 public:
-    explicit DebuggerAgent(QObject *parent = 0);
-    ~DebuggerAgent();
+    static DebuggerAgent* instance();
+
+    void release();
 
 signals:
     void response(QString);
@@ -18,13 +19,17 @@ public slots:
     void sendRequest(QString request);
 
 private:
-    virtual void run();
+    DebuggerAgent(QObject *parent = 0);
+    ~DebuggerAgent();
     void debuggerMessage(const v8::Debug::Message& message);
 
 private:
-    v8::internal::Isolate *m_isolate;
+    int m_refCount;
+    static DebuggerAgent* m_agent;
 
     friend void DebuggerAgentMessageHandler(const v8::Debug::Message& message);
 };
 
 #endif // DebuggerAgent_H
+
+

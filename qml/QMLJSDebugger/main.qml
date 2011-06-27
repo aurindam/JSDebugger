@@ -1,4 +1,5 @@
 import QtQuick 1.0
+import "helper.js" as Helper
 
 Rectangle {
     id: mainWindow
@@ -17,7 +18,7 @@ Rectangle {
                 Text {
                     font { family: "Helvetica[Neue]"; pixelSize: 10 }
                     color: "darkgrey"
-                    text: index
+                    text: index + 1
                 }
             }
         }
@@ -30,11 +31,108 @@ Rectangle {
         color: "black"
         Rectangle {
             id: controlWindow
-            width: mainWindow.width - breakpointLineWindow.width; height: 20
-            anchors.bottom: infoWindow.top; anchors.right: infoWindow.right
+            width: mainWindow.width - breakpointLineWindow.width; height: 28
+            anchors.top: infoWindow.top; anchors.right: infoWindow.right
             color: "grey"
-        }
-    }
+
+            Row {
+                anchors.verticalCenter: controlWindow.verticalCenter
+                anchors.left: controlWindow.left; anchors.right: controlWindow.right
+                spacing: 2
+
+                Rectangle{
+                    width: 28; height: 28
+                    color: "transparent"
+                    Image {
+                        anchors.centerIn: parent
+                        width: 24; height: 24
+                        source: "images/debug.png"
+                    }
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: { console.log ("Start Debug");
+//                            debugService.setScriptPath(fileHandler.filepath());
+//                            debugService.runScript();
+//                            debugService.executeCommand(Helper.setBreakpointInMain());
+//                            debugService.runMain();
+debugClient.startDebugService(fileHandler.filepath()); /*debugClient.sendCommand(Helper.setBreakpointInMain());*/}
+                    }
+                }
+
+                Rectangle{
+                    width: 28; height: 28
+                    color: "transparent"
+                    Image {
+                        anchors.centerIn: parent
+                        width: 24; height: 24
+                        source: "images/play.png"
+                    }
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: console.log ("Start Continue")
+                    }
+                }
+
+                Rectangle{
+                    width: 28; height: 28
+                    color: "transparent"
+                    Image {
+                        anchors.centerIn: parent
+                        width: 24; height: 24
+                        source: "images/step_over.png"
+                    }
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: console.log ("Start Step over")
+                    }
+                }
+
+                Rectangle{
+                    width: 28; height: 28
+                    color: "transparent"
+                    Image {
+                        anchors.centerIn: parent
+                        width: 24; height: 24
+                        source: "images/step_into.png"
+                    }
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: console.log ("Start Step Into")
+                    }
+                }
+
+                Rectangle{
+                    width: 28; height: 28
+                    color: "transparent"
+                    Image {
+                        anchors.centerIn: parent
+                        width: 24; height: 24
+                        source: "images/step_out.png"
+                    }
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: console.log ("Start Step Out")
+                    }
+                }
+
+            }
+        }//controlWindow
+
+        Rectangle {
+            id: stackWindow
+            width: infoWindow.width/2; height: infoWindow.height - controlWindow.height
+            anchors.bottom: infoWindow.bottom; anchors.left: infoWindow.left
+            color: "lightblue"
+        }//StackWindow
+
+        Rectangle {
+            id: localsWindow
+            width: infoWindow.width/2; height: infoWindow.height - controlWindow.height
+            anchors.bottom: infoWindow.bottom; anchors.right: infoWindow.right
+            color: "lightgreen"
+        }//localsWindow
+
+    }//infoWindow
 
     Rectangle {
         id: fileWindow
@@ -48,10 +146,10 @@ Rectangle {
         }
     }
 
-    Component.onCompleted: file.browse()
+    Component.onCompleted: fileHandler.openFile()
     Connections {
-            target: file
-            onFileLoaded: { lineNumberModel.model = file.lines(); fileContents.text = file.contents() }
+            target: fileHandler
+            onFileLoaded: { lineNumberModel.model = fileHandler.lines; fileContents.text = fileHandler.contents }
         }
 
 }

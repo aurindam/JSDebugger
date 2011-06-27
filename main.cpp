@@ -2,15 +2,18 @@
 #include <QDeclarativeContext>
 
 #include "qmlapplicationviewer.h"
-#include "filebrowser.h"
+#include "filehandler.h"
+#include "debugclient.h"
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
-    File file;
+    FileHandler fileHander;
+    DebugClient debugClient;
     QmlApplicationViewer viewer;
-    viewer.rootContext()->setContextProperty("file", &file);
+    viewer.rootContext()->setContextProperty("fileHandler", &fileHander);
+    viewer.rootContext()->setContextProperty("debugClient", &debugClient);
     viewer.setOrientation(QmlApplicationViewer::ScreenOrientationAuto);
     viewer.setMainQmlFile(QLatin1String("qml/QMLJSDebugger/main.qml"));
     viewer.showExpanded();
